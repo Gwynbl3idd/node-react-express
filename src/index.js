@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import multiply from './modules/multiply';
 
+const myElement = React.createElement('h1', {}, 'I do not use JSX!');
+const myElement2 = <h1>I Love JSX!</h1>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const output = multiply(4,5);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <App data={output} />
   </React.StrictMode>
 );
 

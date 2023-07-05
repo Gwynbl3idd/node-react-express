@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.books {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+}
+
+
