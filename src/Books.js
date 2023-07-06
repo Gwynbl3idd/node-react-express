@@ -5,8 +5,8 @@ function Books() {
     const [books, setBookData] = useState([]);
 
     const [formValues, setFormValues] = useState({});
-    const [searchField, setSearchField] = useState('');
     const [cart, setCart] = useState('');
+    const [update, setUpdate] = useState('');
     const handleChange = (e) => {
         setFormValues({ ...formValues, [e.target.id]: e.target.value });
     };
@@ -15,24 +15,21 @@ function Books() {
         setCart({[e.target.id]: e.target.value});
     }
 
-    const fetchData = async () => {
+    const getBooksData = async () => {
         try {
             const response = await fetch('/books');
 
             const json = await response.json();
 
             setBookData(json);
+            setUpdate('Books has been fetched');
 
         } catch (error) {
             console.log("error", error);
         }
     };
 
-    const getBooksData = () => {
-        fetchData();
-    };
-
-    const addBooks = (e) => {
+    const addBooks = async (e) => {
         e.preventDefault();
         let options = {
             method: 'POST',
@@ -43,12 +40,16 @@ function Books() {
             body: JSON.stringify(formValues),
         }
 
-        fetch('/addBooks', options)
+        setUpdate('Books have been added. Click Get Books to see');
+
+        const response = await fetch('/addBooks', options)
             .then(response => response.json())
             .then(resData => console.log('res data', resData));
+
+        console.log(response);
     };
 
-    const deleteBook = (book) => {
+    const deleteBook = async (book) => {
         let options = {
             method: 'DELETE',
             headers: {
@@ -58,18 +59,12 @@ function Books() {
             body: JSON.stringify(book),
         }
         try {
-            const response = fetch('/removeBook', options);
+            const response = await fetch('/removeBook', options);
             console.log('Deleted successfully', response);
+            setUpdate('Book have been deleted. Click Get Books to see');
         } catch (error) {
             console.log("error", error);
         }
-    };
-
-    const searchBook = async (book) => {
-        const response = await fetch(`/books/${book}`);
-        const json = await response.json();
-
-        setBookData(json);
     };
 
     const addToCart = async() => {
@@ -82,15 +77,20 @@ function Books() {
             body: JSON.stringify(cart),
         }
 
-        fetch('/shopping/cart/item', options)
+        setUpdate('Item has been added to cart');
+
+        const response = await fetch('/shopping/cart/item', options)
             .then(response => response.json())
             .then(resData => console.log('res data', resData));
+
+        console.log(response);
     }
 
     return (
         <div className="App">
             <header className="App-header">
-                <button onClick={getBooksData}> get books </button>
+                {update}
+                <button onClick={getBooksData}> Get Books </button>
                 {books.length!=0 && books.map((book) => (
                     <div className='books'>
                         <p> Name: {book.name}</p>

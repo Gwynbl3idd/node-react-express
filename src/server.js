@@ -18,6 +18,11 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Running on PORT ${PORT}`));
 
 app.use((req, res, next) => {
+    console.log('Request Type:', req.method);
+    next();
+});
+
+app.use((req, res, next) => {
     console.log('enters');
     if(!req.cookies?.visited) {
         console.log('cookie not present');
@@ -27,6 +32,8 @@ app.use((req, res, next) => {
     else console.log('Welcome back');
     next();
 });
+
+
 
 const data = [
     {
