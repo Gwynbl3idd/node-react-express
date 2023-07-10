@@ -23,7 +23,7 @@ function App({data}) {
     setTimeout(() => {
       setCounter(counter + 1);
     }, 1000);
-  }, );
+  }, [counter]);
 
   return (
     <div className="App">

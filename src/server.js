@@ -13,10 +13,6 @@ app.use(session({
     secret: 'aksjcfvakjsbfcjafclanfclka',
 }));
 
-const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, () => console.log(`Running on PORT ${PORT}`));
-
 app.use((req, res, next) => {
     console.log('Request Type:', req.method);
     next();
@@ -96,4 +92,5 @@ app.get('/ping', function (req, res) {
     return res.send('pong');
 });
 
-app.listen(process.env.PORT || 8080);
+const PORT = 8080;
+app.listen(PORT, () => console.log(`Running on PORT ${PORT}`));
